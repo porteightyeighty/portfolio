@@ -73,7 +73,7 @@ Components, written test-first. Looking for a backend role.
 ## Projects and open source
 
 - **[rust2lctrs](/rust2lctrs):** Java, ANTLR, Spring Boot. My dissertation, with a live demo at
-  mattport.com/r2l.
+  mattport.com/rust2lctrs/demo.
 - **[Gym tracker](/gym-tracker):** TypeScript, Nuxt, Postgres. A workout log with an outbox-based
   analysis worker.
 - **[Cora](/open-source):** changed the prover's integers from 32-bit `int` to `BigInteger` (merged).

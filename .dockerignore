@@ -1,0 +1,7 @@
+site/node_modules
+site/dist
+site/.astro
+*.pdf
+PLAN.md
+content/home.md
+.git

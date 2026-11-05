@@ -2,7 +2,7 @@
 
 **Java · ANTLR · Spring Boot · Docker · Railway**
 
-[Live demo](https://mattport.com/r2l/) · [Source](https://github.com/porteightyeighty/rust2lctrs) ·
+[Live demo](https://mattport.com/rust2lctrs/demo/) · [Source](https://github.com/porteightyeighty/rust2lctrs) ·
 [Architecture](https://github.com/porteightyeighty/rust2lctrs/blob/main/docs/ARCHITECTURE.md)
 
 My MSc project at Birkbeck (2026).
