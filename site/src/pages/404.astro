@@ -1,0 +1,45 @@
+---
+import Base from "../layouts/Base.astro";
+import { pages } from "../site";
+---
+
+<Base title="Not found · Matt Port">
+  <p class="prompt">cd <span class="missing">that-page</span></p>
+  <p class="err">bash: cd: <span class="missing">that-page</span>: No such file or directory</p>
+
+  <p class="prompt">ls</p>
+  <ul class="ls-plain">
+    {
+      Object.entries(pages).map(([name, path]) => (
+        <li>
+          <a href={path}>{name === "~" ? "~ (home)" : `${name}/`}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
+
+<style>
+  .err {
+    font: 400 0.95rem/1.5 var(--mono);
+  }
+  .ls-plain {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    font: 400 0.95rem/1.5 var(--mono);
+  }
+  .ls-plain a {
+    color: var(--accent);
+  }
+</style>
+
+<script>
+  // Static hosting serves this file for every unknown path, so show the path that was asked for.
+  const path = decodeURIComponent(window.location.pathname);
+  if (path !== "/404" && path !== "/404.html") {
+    document.querySelectorAll(".missing").forEach((el) => (el.textContent = path));
+  }
+</script>

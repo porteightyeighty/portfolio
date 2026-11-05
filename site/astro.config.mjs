@@ -1,0 +1,10 @@
+// @ts-check
+import { defineConfig } from "astro/config";
+
+export default defineConfig({
+  site: "https://mattport.com",
+  devToolbar: { enabled: false },
+  markdown: {
+    shikiConfig: { themes: { light: "github-light", dark: "github-dark" } },
+  },
+});

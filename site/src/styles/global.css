@@ -1,0 +1,366 @@
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/400-italic.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+
+/* Warm paper in light mode, terminal slate in dark mode. */
+:root {
+  --bg: #f7f5ef;
+  --fg: #1d2125;
+  --muted: #5f6670;
+  --accent: #2c7a35;
+  --rule: #e1ddd2;
+  --code-bg: #eeebe3;
+
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --sans: "IBM Plex Sans", system-ui, sans-serif;
+  --width: 44rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #2b3138;
+    --fg: #e4e7ea;
+    --muted: #9aa4ae;
+    --accent: #c6f251;
+    --rule: #3d454e;
+    --code-bg: #232930;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 1.0625rem/1.65 var(--sans);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0 1rem;
+}
+
+.page {
+  max-width: var(--width);
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--accent);
+}
+
+/* Navigation: one line, written like a path. */
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  font: 400 0.9rem/1.4 var(--mono);
+  padding-bottom: 1rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+.nav a {
+  text-decoration: none;
+  color: var(--muted);
+}
+.nav a:hover,
+.nav a[aria-current="page"] {
+  color: var(--accent);
+}
+.nav .home {
+  color: var(--fg);
+  font-weight: 600;
+  margin-right: auto;
+}
+
+/* `$ command` lines. Printed in full, never typed out. */
+.prompt {
+  font: 400 0.95rem/1.4 var(--mono);
+  color: var(--muted);
+  margin: 2.75rem 0 0.75rem;
+}
+.prompt::before {
+  content: "$ ";
+  color: var(--accent);
+  font-weight: 600;
+}
+.prompt:first-child {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--mono);
+  font-weight: 600;
+  line-height: 1.25;
+}
+h1 {
+  font-size: 1.9rem;
+  margin: 0 0 1rem;
+}
+h2 {
+  font-size: 1.2rem;
+  margin: 2.5rem 0 0.75rem;
+}
+h2::before {
+  content: "## ";
+  color: var(--accent);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* Under a case-study title: the stack line, then the links line. */
+.case h1 + p,
+.case h1 + p + p {
+  font: 400 0.88rem/1.5 var(--mono);
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+.case h1 + p strong {
+  font-weight: 400;
+}
+.case h1 + p + p {
+  margin-bottom: 1.5rem;
+}
+h3 {
+  font-size: 1.02rem;
+  margin: 1.75rem 0 0.5rem;
+}
+
+p,
+ul,
+ol,
+table,
+pre {
+  margin: 0 0 1rem;
+}
+ul,
+ol {
+  padding-left: 1.25rem;
+}
+li {
+  margin-bottom: 0.35rem;
+}
+strong {
+  font-weight: 600;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  background: var(--code-bg);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+pre {
+  background: var(--code-bg);
+  padding: 0.9rem 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+/* Shiki writes both themes; pick one by colour scheme. */
+.astro-code,
+.astro-code span {
+  background-color: var(--code-bg) !important;
+}
+@media (prefers-color-scheme: dark) {
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+  }
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.95rem;
+}
+th,
+td {
+  text-align: left;
+  padding: 0.45rem 0.75rem 0.45rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+th {
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.lead {
+  font-size: 1.15rem;
+}
+.muted {
+  color: var(--muted);
+}
+
+/* Project list, laid out like a directory listing. */
+.ls {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ls li {
+  margin: 0;
+  border-top: 1px solid var(--rule);
+}
+.ls li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.ls a {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  gap: 0.25rem 1.25rem;
+  padding: 0.9rem 0;
+  text-decoration: none;
+}
+.ls .name {
+  font: 600 1rem/1.5 var(--mono);
+  color: var(--accent);
+}
+.ls .stack {
+  grid-column: 2;
+  font: 400 0.8rem/1.4 var(--mono);
+  color: var(--muted);
+}
+.ls a:hover .desc {
+  color: var(--fg);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+}
+@media (max-width: 34rem) {
+  .ls a {
+    grid-template-columns: 1fr;
+  }
+  .ls .stack {
+    grid-column: 1;
+  }
+}
+
+.footer {
+  margin-top: 4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font: 400 0.85rem/1.6 var(--mono);
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+}
+.footer a {
+  color: var(--muted);
+}
+.footer .commit {
+  margin-left: auto;
+}
+.footer .commit a {
+  text-decoration: none;
+}
+
+/* Under a project heading on list pages (Other): "**Stack** · [Source]". */
+.plain h2 + p:has(> strong:first-child) {
+  font: 400 0.88rem/1.5 var(--mono);
+  color: var(--muted);
+}
+.plain h2 + p:has(> strong:first-child) strong {
+  font-weight: 400;
+}
+
+/* A paragraph of only screenshots: a row of phone shots. */
+.case p:has(> img) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.case p:has(> img) img {
+  width: 12.5rem;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+
+.spacer {
+  height: 2.5rem;
+}
+
+.print-hint {
+  font: 400 0.8rem/1.4 var(--mono);
+  float: right;
+  margin: 0;
+}
+
+/* The CV prints as a plain document: no nav, prompts or footer, black on white. */
+@media print {
+  :root {
+    --bg: #fff;
+    --fg: #000;
+    --muted: #444;
+    --accent: #000;
+    --rule: #ccc;
+  }
+  html {
+    font-size: 10pt;
+  }
+  body {
+    padding: 0;
+  }
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+  .nav,
+  .footer,
+  .prompt,
+  .print-hint,
+  .term {
+    display: none;
+  }
+  h1 {
+    font-size: 1.6rem;
+  }
+  h2 {
+    margin-top: 1.25rem;
+    break-after: avoid;
+  }
+  h2::before {
+    content: none;
+  }
+  h3 {
+    margin-top: 0.9rem;
+    break-after: avoid;
+  }
+  a {
+    text-decoration: none;
+  }
+  li {
+    break-inside: avoid;
+  }
+}

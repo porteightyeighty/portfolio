@@ -1,0 +1,6 @@
+# Private: submitted MSc report, not for publication
+*.pdf
+
+# Planning docs, kept local
+PLAN.md
+content/home.md

@@ -1,0 +1,16 @@
+---
+/**
+ * One Markdown file from ../content, shown as `$ cat <file>` followed by the rendered text.
+ * `kind` picks the styling: "case" gives the lines under the title the small metadata style.
+ */
+interface Props {
+  file: string;
+  kind?: "case" | "plain";
+}
+const { file, kind = "case" } = Astro.props;
+---
+
+<p class="prompt">cat {file}</p>
+<article class={kind}>
+  <slot />
+</article>

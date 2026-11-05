@@ -1,0 +1,207 @@
+---
+/**
+ * The prompt at the bottom of the home page. Nothing happens unless the visitor clicks it and
+ * types; without JavaScript it is just a blinking cursor.
+ */
+import { pages, email, linkedin } from "../site";
+---
+
+<div class="term" data-pages={JSON.stringify(pages)} data-email={email} data-linkedin={linkedin}>
+  <div class="term-out" aria-live="polite"></div>
+  <label class="prompt term-line">
+    <span class="term-typed"></span><span class="term-cursor" aria-hidden="true"></span>
+    <input
+      class="term-input"
+      type="text"
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+      aria-label="Command line. Type help for commands."
+    />
+  </label>
+  <p class="term-hint muted">click the prompt and type <code>help</code></p>
+</div>
+
+<style>
+  .term-line {
+    position: relative;
+    cursor: text;
+    margin-bottom: 0.25rem;
+  }
+  .term-typed {
+    color: var(--fg);
+    white-space: pre;
+  }
+  .term-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    opacity: 0;
+    border: 0;
+    font: inherit;
+    cursor: text;
+  }
+  .term-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    vertical-align: -0.2em;
+    background: var(--accent);
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .term-cursor {
+      animation: none;
+    }
+  }
+  .term-line:focus-within {
+    outline: 1px dashed var(--rule);
+    outline-offset: 6px;
+  }
+  .term-hint {
+    font: 400 0.8rem/1.4 var(--mono);
+    margin: 0;
+  }
+  .term:has(.term-out:not(:empty)) .term-hint {
+    display: none;
+  }
+  .term-out :global(p) {
+    font: 400 0.95rem/1.5 var(--mono);
+    margin: 0;
+    white-space: pre-wrap;
+  }
+  .term-out :global(.cmd::before) {
+    content: "$ ";
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .term-out :global(a) {
+    color: var(--accent);
+  }
+  .term-out :global(.cmd) {
+    color: var(--muted);
+    margin-top: 0.75rem;
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>(".term")!;
+  const out = root.querySelector<HTMLElement>(".term-out")!;
+  const input = root.querySelector<HTMLInputElement>(".term-input")!;
+  const typed = root.querySelector<HTMLElement>(".term-typed")!;
+  const pages: Record<string, string> = JSON.parse(root.dataset.pages!);
+  const email = root.dataset.email!;
+  const linkedin = root.dataset.linkedin!;
+  const names = Object.keys(pages).filter((n) => n !== "~");
+
+  const history: string[] = [];
+  let back = 0;
+
+  function print(text: string, cls = "") {
+    const p = document.createElement("p");
+    if (cls) p.className = cls;
+    p.textContent = text;
+    out.append(p);
+    return p;
+  }
+
+  /** Prints `before`, then a link. */
+  function printLink(href: string, text: string, before = "") {
+    const p = print(before);
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = text;
+    p.append(a);
+  }
+  const printEmail = (before = "") => printLink(`mailto:${email}`, email, before);
+
+  function go(arg: string | undefined) {
+    const name = (arg ?? "~").replace(/^\.?\//, "").replace(/\/$/, "").replace(/\.md$/, "") || "~";
+    const path = pages[name];
+    if (path) {
+      window.location.href = path;
+    } else {
+      print(`cd: no such file or directory: ${arg}`);
+    }
+  }
+
+  const commands: Record<string, (args: string[]) => void> = {
+    help: () =>
+      print(
+        [
+          "ls            list pages",
+          "cd <page>     go to a page (cat works too)",
+          "whoami        who this is",
+          "contact       how to get in touch",
+          "clear         clear the screen",
+        ].join("\n"),
+      ),
+    ls: () => print(names.map((n) => `${n}/`).join("  ")),
+    cd: (a) => go(a[0]),
+    cat: (a) => go(a[0]),
+    open: (a) => go(a[0]),
+    pwd: () => print("/home/matt"),
+    whoami: () => print("matt: software engineer in London, looking for backend work"),
+    contact: () => {
+      printEmail("email     ");
+      printLink(linkedin, linkedin.replace(/^https:\/\//, ""), "linkedin  ");
+    },
+    clear: () => out.replaceChildren(),
+    echo: (a) => print(a.join(" ")),
+    sudo: (a) =>
+      a.join(" ") === "hire matt"
+        ? printEmail("[sudo] password for recruiter: ********\npermission granted. ")
+        : print("matt is not in the sudoers file. this incident will be reported."),
+    vim: () => print("you'd never leave. try cd instead."),
+    nvim: () => print("you'd never leave. try cd instead."),
+    exit: () => print("there's no exit, but there is an about page: cd about"),
+  };
+
+  function run(line: string) {
+    print(line, "cmd");
+    const [cmd, ...args] = line.trim().split(/\s+/);
+    if (!cmd) return;
+    const handler = commands[cmd];
+    if (handler) handler(args);
+    else print(`${cmd}: command not found. try help`);
+  }
+
+  function sync() {
+    typed.textContent = input.value;
+  }
+
+  input.addEventListener("input", sync);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const line = input.value;
+      input.value = "";
+      sync();
+      if (line.trim()) history.push(line);
+      back = 0;
+      run(line);
+    } else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      e.preventDefault();
+      back = Math.max(0, Math.min(history.length, back + (e.key === "ArrowUp" ? 1 : -1)));
+      input.value = back ? history[history.length - back]! : "";
+      sync();
+    } else if (e.key === "Tab") {
+      // Complete the last word against page names.
+      const parts = input.value.split(" ");
+      const last = parts.pop() ?? "";
+      const match = names.filter((n) => n.startsWith(last));
+      if (parts.length && match.length === 1) {
+        e.preventDefault();
+        input.value = [...parts, match[0]].join(" ");
+        sync();
+      }
+    } else if (e.key === "l" && e.ctrlKey) {
+      e.preventDefault();
+      out.replaceChildren();
+    }
+  });
+</script>

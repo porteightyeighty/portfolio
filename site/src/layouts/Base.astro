@@ -1,0 +1,70 @@
+---
+import { execSync } from "node:child_process";
+import "../styles/global.css";
+
+// `git log -1` for the footer, read at build time. Falls back to the build date outside a repo.
+const REPO = "https://github.com/porteightyeighty/portfolio";
+let commit: { hash: string; date: string } | null = null;
+try {
+  const [hash, date] = execSync("git log -1 --format=%h%n%cs", { stdio: ["ignore", "pipe", "ignore"] })
+    .toString()
+    .trim()
+    .split("\n");
+  if (hash && date) commit = { hash, date };
+} catch {
+  // not a git checkout
+}
+const built = new Date().toISOString().slice(0, 10);
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Matt Port: software engineer in London, looking for backend work." } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const links = [
+  { href: "/#projects", label: "projects" },
+  { href: "/about", label: "about" },
+  { href: "/cv", label: "cv" },
+];
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="page">
+      <nav class="nav" aria-label="Site">
+        <a class="home" href="/">~/matt-port</a>
+        {links.map((l) => <a href={l.href} aria-current={path === l.href ? "page" : undefined}>{l.label}</a>)}
+      </nav>
+      <main>
+        <slot />
+      </main>
+      <footer class="footer">
+        <a href="https://github.com/porteightyeighty">github</a>
+        <a href="https://linkedin.com/in/matthew-port">linkedin</a>
+        <a href="mailto:hi@mattport.com">hi@mattport.com</a>
+        <span class="commit">
+          {
+            commit ? (
+              <a href={`${REPO}/commit/${commit.hash}`}>
+                last commit {commit.date} · {commit.hash}
+              </a>
+            ) : (
+              <>built {built}</>
+            )
+          }
+        </span>
+      </footer>
+    </div>
+  </body>
+</html>

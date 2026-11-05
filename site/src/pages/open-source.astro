@@ -1,0 +1,12 @@
+---
+import Base from "../layouts/Base.astro";
+import Doc from "../components/Doc.astro";
+import { Content as Cora } from "../../../content/cora.md";
+import { Content as SfNvim } from "../../../content/sf-nvim.md";
+---
+
+<Base title="Open source · Matt Port" description="Contributions to Cora and sf.nvim.">
+  <Doc file="open-source/cora.md"><Cora /></Doc>
+  <div class="spacer"></div>
+  <Doc file="open-source/sf-nvim.md"><SfNvim /></Doc>
+</Base>

@@ -1,0 +1,37 @@
+---
+import Base from "../layouts/Base.astro";
+import Terminal from "../components/Terminal.astro";
+import { projects } from "../site";
+// Copy from content/home.md (plain pass, 2026-11-05).
+---
+
+<Base title="Matt Port">
+  <p class="prompt">whoami</p>
+  <h1>Matt Port</h1>
+  <p class="lead">
+    I'm Matt. I write software, mostly backend, and spent five years building Salesforce systems for clients.
+  </p>
+  <p>
+    I live in London and I'm looking for a backend role. I finished an MSc in Computer Science at Birkbeck in 2026,
+    with a Distinction. These are the projects I've put the most work into.
+  </p>
+
+  <p class="prompt" id="projects">ls projects/</p>
+  <ul class="ls">
+    {
+      projects.map((p) => (
+        <li>
+          <a href={`/${p.slug}`}>
+            <span class="name">{p.slug}/</span>
+            <span class="desc">{p.desc}</span>
+            <span class="stack">{p.stack}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div style="margin-top: 2.75rem">
+    <Terminal />
+  </div>
+</Base>
