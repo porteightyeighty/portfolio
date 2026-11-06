@@ -15,8 +15,8 @@ during it I contributed a change to the prover itself.
 
 ## What I'm looking for
 
-An early-career backend role on a team where I can learn from experienced engineers. I've spent
-five years shipping work for clients at a small co-operative, and I'd like to work on larger
+An early-career software engineering role on a team where I can learn from experienced engineers.
+I've spent five years shipping work for clients at a small co-operative, and I'd like to work on larger
 systems alongside people who know more than I do.
 
 I'm based in London and can work on-site or hybrid.
