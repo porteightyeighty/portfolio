@@ -1,0 +1,14 @@
+# Railway has "Wait for CI" on for the site service, so a failure here skips the deploy.
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: docker build .
