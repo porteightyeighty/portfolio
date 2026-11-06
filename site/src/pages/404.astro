@@ -3,9 +3,11 @@ import Base from "../layouts/Base.astro";
 import { pages } from "../site";
 ---
 
-<Base title="Not found · Matt Port">
+<Base title="404 Not Found · Matt Port">
+  <h1>404 Not Found</h1>
+
   <p class="prompt">cd <span class="missing">that-page</span></p>
-  <p class="err">bash: cd: <span class="missing">that-page</span>: No such file or directory</p>
+  <p class="err">cd: <span class="missing">that-page</span>: No such file or directory</p>
 
   <p class="prompt">ls</p>
   <ul class="ls-plain">
