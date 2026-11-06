@@ -103,9 +103,3 @@ can be tested.
 The terminating program Cora doesn't prove under debug is McCarthy's 91 function: its
 termination argument depends on nested recursive calls, which Cora's search doesn't find. Under release, Cora proves fewer programs because it no
 longer has the overflow bound to work with.
-
-## Next steps
-
-- Test that a Rust program and its translation give the same results on the same inputs. Nothing
-  checks that directly yet.
-- Support more of Rust, starting with `for` loops over ranges.
