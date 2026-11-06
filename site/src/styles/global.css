@@ -210,9 +210,15 @@ th {
   color: var(--muted);
 }
 
-img {
+img,
+video {
   max-width: 100%;
   height: auto;
+}
+video {
+  display: block;
+  margin: 1.25rem 0;
+  border: 1px solid var(--rule);
 }
 
 .lead {

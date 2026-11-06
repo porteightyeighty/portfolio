@@ -15,6 +15,11 @@ rewriting those IDs. The plugin uses the tree-sitter parse tree to do it:
 
 The same keys work in both kinds of diagram.
 
+<video controls muted playsinline preload="metadata" width="1000" height="420"
+  poster="/media/mermaid-edit-demo.jpg" aria-label="Demo: swapping, inserting, reshaping and removing flowchart steps, then renaming an ER entity">
+  <source src="/media/mermaid-edit-demo.mp4" type="video/mp4">
+</video>
+
 ## dotfiles
 
 **Nix · home-manager · Neovim · Hyprland** · [Source](https://github.com/porteightyeighty/dotfiles)
