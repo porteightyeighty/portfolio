@@ -16,9 +16,7 @@ role.
 
 ## Experience
 
-### CRM Consultant and Founding Director, Impact Box Co-operative
-
-*Remote · Sep 2021 – Sep 2026*
+### CRM Consultant and Founding Director, Impact Box Co-operative <span class="when">Remote · Sep 2021 – Sep 2026</span>
 
 - Co-founded a Salesforce consultancy co-operative for nonprofits and community-interest
   organisations of 10 to 500+ users. Owned 30+ implementations from requirements and solution
@@ -51,16 +49,12 @@ role.
   service's monthly revenue by 15%, retained 20+ clients over three years and automated contract
   renewals, saving a day a month.
 
-### Research and Development Assistant, National Centre for Diversity
-
-*Leeds · Oct 2020 – Sep 2021*
+### Research and Development Assistant, National Centre for Diversity <span class="when">Leeds · Oct 2020 – Sep 2021</span>
 
 - Taught myself Google Apps Script and the SCORM Cloud REST API to replace a manual weekly report
   with client dashboards updated hourly.
 
-### Welfare Officer (sabbatical), Leeds University Union
-
-*Leeds · Jun 2018 – Jun 2019*
+### Welfare Officer (sabbatical), Leeds University Union <span class="when">Leeds · Jun 2018 – Jun 2019</span>
 
 - One of six elected Executive Directors representing 30,000+ students. Ran the University's
   largest drug and alcohol consultation with an external consultancy, which led the Board to adopt
@@ -70,9 +64,7 @@ role.
 
 ## Education
 
-### MSc Computer Science, Birkbeck, University of London
-
-*2024 – 2026 · Distinction · part-time, alongside full-time work*
+### MSc Computer Science, Birkbeck, University of London <span class="when">2024 – 2026 · Distinction · part-time</span>
 
 - Dissertation (82%): [rust2lctrs](/rust2lctrs), a compiler front-end in Java that translates a
   subset of Rust into rewrite rules for the Cora termination prover, built with Maven and tested
@@ -80,9 +72,7 @@ role.
 - Team project: a local transcription tool with speaker identification and meeting analytics, a
   Python CLI running models through Ollama.
 
-### BA English and Comparative Literature, University of Leeds
-
-*2016 – 2020 · 2:1*
+### BA English and Comparative Literature, University of Leeds <span class="when">2016 – 2020 · 2:1</span>
 
 - Electives: Programming for the Web (99%), Introduction to Web Technologies (100%).
 

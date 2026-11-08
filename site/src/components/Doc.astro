@@ -1,11 +1,12 @@
 ---
 /**
  * One Markdown file from ../content, shown as `$ cat <file>` followed by the rendered text.
- * `kind` picks the styling: "case" gives the lines under the title the small metadata style.
+ * `kind` picks the styling: "case" gives the lines under the title the small metadata style,
+ * "cv" also gets the CV's print layout.
  */
 interface Props {
   file: string;
-  kind?: "case" | "plain";
+  kind?: "case" | "plain" | "cv";
 }
 const { file, kind = "case" } = Astro.props;
 ---

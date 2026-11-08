@@ -126,7 +126,8 @@ h2::before {
 
 /* Under a case-study title: the stack line, then the links line. */
 .case h1 + p,
-.case h1 + p + p {
+.case h1 + p + p,
+.cv h1 + p {
   font: 400 0.88rem/1.5 var(--mono);
   color: var(--muted);
   margin-bottom: 0.4rem;
@@ -140,6 +141,12 @@ h2::before {
 h3 {
   font-size: 1.02rem;
   margin: 1.75rem 0 0.5rem;
+}
+/* CV headings carry "place · dates"; on screen it sits on its own line, as plain italic text. */
+.cv h3 .when {
+  display: block;
+  margin-top: 0.5rem;
+  font: italic 400 1rem/1.65 var(--sans);
 }
 
 p,
@@ -368,5 +375,69 @@ video {
   }
   li {
     break-inside: avoid;
+  }
+
+  /* CV: a conventional A4 document in sans, with dates beside each job title. */
+  @page {
+    size: A4;
+    margin: 14mm 16mm;
+  }
+  .cv {
+    line-height: 1.4;
+  }
+  .cv h1,
+  .cv h2,
+  .cv h3 {
+    font-family: var(--sans);
+  }
+  .cv h1 {
+    font-size: 1.9rem;
+    margin: 0 0 0.15rem;
+  }
+  .cv h1 + p {
+    font: 400 0.95rem/1.4 var(--sans);
+    color: var(--muted);
+    margin: 0 0 0.4rem;
+  }
+  .cv h2 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 1rem 0 0.5rem;
+    padding-bottom: 0.2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  /* Job title on the left, place and dates on the right. */
+  .cv h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: 1rem;
+    margin: 0 0 0.2rem;
+  }
+  .cv h3 .when {
+    display: inline;
+    margin: 0;
+    font-size: 0.95rem;
+    font-style: normal;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .cv p,
+  .cv ul {
+    margin-bottom: 0.6rem;
+  }
+  /* Keep the "*Earlier: …*" line with the job above it. */
+  .cv ul + p:has(> em:only-child) {
+    break-before: avoid;
+  }
+  .cv li {
+    margin-bottom: 0.15rem;
+  }
+  .cv code {
+    font: inherit;
+    background: none;
+    padding: 0;
   }
 }
