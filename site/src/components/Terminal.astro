@@ -19,7 +19,7 @@ import { pages, email, linkedin } from "../site";
       aria-label="Command line. Type help for commands."
     />
   </label>
-  <p class="term-hint muted">click the prompt and type <code>help</code></p>
+  <p class="term-hint muted">click the prompt or press <code>i</code>, then type <code>help</code></p>
 </div>
 
 <style>
@@ -62,6 +62,10 @@ import { pages, email, linkedin } from "../site";
   .term-line:focus-within {
     outline: 1px dashed var(--rule);
     outline-offset: 6px;
+  }
+  /* A block cursor normally, a thin bar while typing, like vim's insert mode. */
+  .term-line:focus-within .term-cursor {
+    width: 2px;
   }
   .term-hint {
     font: 400 0.8rem/1.4 var(--mono);
@@ -139,6 +143,11 @@ import { pages, email, linkedin } from "../site";
           "whoami        who this is",
           "contact       how to get in touch",
           "clear         clear the screen",
+          "",
+          "outside the prompt:",
+          "j / k         scroll down / up",
+          "/             find in page, then n / N for next / previous",
+          "i             focus this prompt (esc to leave it)",
         ].join("\n"),
       ),
     ls: () => print(names.map((n) => `${n}/`).join("  ")),

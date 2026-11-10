@@ -1,0 +1,198 @@
+---
+/**
+ * Vim-style keys on every page: j/k scroll, / finds in the page (n/N move between matches),
+ * i focuses the prompt on the home page, Esc leaves an input or clears the matches.
+ */
+---
+
+<div class="vim-search" hidden>
+  <span aria-hidden="true">/</span>
+  <input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Find in page" />
+  <span class="vim-count muted" aria-live="polite"></span>
+</div>
+
+<style>
+  .vim-search {
+    position: fixed;
+    inset: auto 0 0;
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.4rem 1rem;
+    background: var(--code-bg);
+    border-top: 1px solid var(--rule);
+    font: 400 0.95rem/1.4 var(--mono);
+  }
+  .vim-search[hidden] {
+    display: none;
+  }
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    caret-color: var(--accent);
+  }
+  :global(::highlight(vim-match)) {
+    background-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  :global(::highlight(vim-current)) {
+    background-color: var(--accent);
+    color: var(--bg);
+  }
+  @media print {
+    .vim-search {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const SCROLL_STEP = 60;
+
+  function setup() {
+    const bar = document.querySelector<HTMLElement>(".vim-search")!;
+    const input = bar.querySelector("input")!;
+    const count = bar.querySelector<HTMLElement>(".vim-count")!;
+    const content = document.querySelector<HTMLElement>(".page")!;
+
+    const all = new Highlight();
+    const current = new Highlight();
+    current.priority = 1;
+    CSS.highlights.set("vim-match", all);
+    CSS.highlights.set("vim-current", current);
+
+    let matches: Range[] = [];
+    let index = 0;
+    let origin = 0; // Where the page was when the search opened; Esc goes back there.
+
+    function visibleTextNodes() {
+      const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, {
+        acceptNode: (node) =>
+          node.parentElement!.checkVisibility() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+      });
+      const nodes: Text[] = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode as Text);
+      return nodes;
+    }
+
+    /** Searches the page's text as one string, so a match can span links and highlighted code. */
+    function find(query: string) {
+      if (!query.trim()) return [];
+      const nodes = visibleTextNodes();
+      const starts: number[] = [];
+      let text = "";
+      for (const node of nodes) {
+        starts.push(text.length);
+        text += node.data;
+      }
+      const nodeAt = (offset: number) => starts.findLastIndex((start) => start <= offset);
+      // A literal search, except that a space also matches the line breaks inside paragraphs.
+      const pattern = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "\\s+");
+      return Array.from(text.matchAll(new RegExp(pattern, "gi")), (match) => {
+        const end = match.index + match[0].length;
+        const first = nodeAt(match.index);
+        const last = nodeAt(end - 1);
+        const range = new Range();
+        range.setStart(nodes[first]!, match.index - starts[first]!);
+        range.setEnd(nodes[last]!, end - starts[last]!);
+        return range;
+      });
+    }
+
+    function reveal(range: Range) {
+      // Brings a match inside a scrolling code block into view; the check below handles the page.
+      range.startContainer.parentElement!.scrollIntoView({ block: "nearest", inline: "nearest" });
+      const { top, bottom } = range.getBoundingClientRect();
+      if (top < 0 || bottom > window.innerHeight - 2 * bar.offsetHeight) {
+        window.scrollBy(0, top - window.innerHeight / 3);
+      }
+    }
+
+    function select(i: number) {
+      index = (i + matches.length) % matches.length;
+      const range = matches[index]!;
+      current.clear();
+      current.add(range);
+      count.textContent = `${index + 1}/${matches.length}`;
+      reveal(range);
+    }
+
+    function clear() {
+      matches = [];
+      all.clear();
+      current.clear();
+      count.textContent = "";
+    }
+
+    /** Runs on each keystroke, starting from where the page was when the search opened. */
+    function update() {
+      window.scrollTo(0, origin);
+      clear();
+      matches = find(input.value);
+      matches.forEach((range) => all.add(range));
+      if (matches.length) {
+        select(Math.max(0, matches.findIndex((range) => range.getBoundingClientRect().top >= 0)));
+      } else if (input.value) {
+        count.textContent = "no matches";
+      }
+    }
+
+    function open() {
+      origin = window.scrollY;
+      input.value = "";
+      clear();
+      bar.hidden = false;
+      input.focus();
+    }
+
+    function close() {
+      bar.hidden = true;
+      input.blur();
+    }
+
+    input.addEventListener("input", update);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        close();
+      } else if (e.key === "Escape") {
+        clear();
+        window.scrollTo(0, origin);
+        close();
+      }
+    });
+
+    const step = (by: number) => {
+      if (matches.length) select(index + by);
+    };
+    const keys: Record<string, () => void> = {
+      j: () => window.scrollBy(0, SCROLL_STEP),
+      k: () => window.scrollBy(0, -SCROLL_STEP),
+      "/": open,
+      n: () => step(1),
+      N: () => step(-1),
+      i: () => document.querySelector<HTMLInputElement>(".term-input")?.focus(),
+      Escape: clear,
+    };
+
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const target = e.target as HTMLElement;
+      if (target.matches("input, textarea, select") || target.isContentEditable) {
+        if (e.key === "Escape") target.blur();
+        return;
+      }
+      const action = keys[e.key];
+      if (action) {
+        e.preventDefault(); // Otherwise i or / would be typed into the input that just took focus.
+        action();
+      }
+    });
+  }
+
+  // Browsers without the Highlight API keep their normal keyboard behaviour.
+  if ("highlights" in CSS) setup();
+</script>

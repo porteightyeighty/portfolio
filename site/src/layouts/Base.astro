@@ -1,5 +1,6 @@
 ---
 import { execSync } from "node:child_process";
+import VimKeys from "../components/VimKeys.astro";
 import "../styles/global.css";
 
 // `git log -1` for the footer, read at build time. Falls back to the build date outside a repo.
@@ -69,5 +70,6 @@ const links = [
         </span>
       </footer>
     </div>
+    <VimKeys />
   </body>
 </html>
