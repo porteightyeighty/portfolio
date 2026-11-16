@@ -19,7 +19,7 @@ export const projects: Project[] = [
   },
   {
     slug: "open-source",
-    desc: "A change to Cora so that it handles integers larger than 32 bits, and an sObject refresh command for the sf.nvim Neovim plugin.",
+    desc: "A change to Cora so that it handles integers larger than 32 bits, and an sObject refresh command for sf.nvim, a Neovim plugin for Salesforce development.",
     stack: "java · lua · neovim",
   },
   {

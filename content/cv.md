@@ -11,12 +11,12 @@ Components, written test-first. I adapt to whatever technology the work needs: I
 Google Apps Script and REST APIs to meet a client deadline, and wrote my dissertation, a compiler
 front-end, in Java. As a co-founder of a small consultancy co-operative, I owned projects from
 client workshops to production support, so I'm used to explaining technical decisions to
-non-technical people, from executives to frontline fundraisers. Looking for a software engineering
-role.
+non-technical people, from executives to frontline fundraisers. Looking for software engineering
+roles, including Salesforce development.
 
 ## Experience
 
-### CRM Consultant and Founding Director, Impact Box Co-operative <span class="when">Remote · Sep 2021 – Sep 2026</span>
+### CRM Consultant and Founding Director, Impact Box Co-operative <span class="when">Remote · Apr 2022 – Sep 2026</span>
 
 - Co-founded a Salesforce consultancy co-operative for nonprofits and community-interest
   organisations of 10 to 500+ users. Owned 30+ implementations from requirements and solution
@@ -48,6 +48,10 @@ role.
 - Led a support team of five serving 30+ retainer clients and 100+ cases a month. Grew the support
   service's monthly revenue by 15%, retained 20+ clients over three years and automated contract
   renewals, saving a day a month.
+
+### Solutions Officer, Impact Box <span class="when">Oct 2021 – Apr 2022</span>
+
+- The team went on to found Impact Box Co-operative, keeping the name and branding.
 
 ### Research and Development Assistant, National Centre for Diversity <span class="when">Leeds · Oct 2020 – Sep 2021</span>
 
