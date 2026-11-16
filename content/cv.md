@@ -23,9 +23,6 @@ roles, including Salesforce development.
   design through build, testing, documentation and handover, then supported them in production.
 - Wrote backend services in Apex (a Java-like language) using test-driven development, with unit
   and integration test suites, following Salesforce's bulk processing and governor-limit practices.
-- Built internal REST APIs, including a ClickUp integration written from scratch, that combined
-  relational and non-relational data sources into a time-tracking dashboard and saved the team
-  hours of timesheet work each week.
 - Built integrations with payment processors and other external APIs, covering authentication,
   data transformation, synchronisation, error handling and retries.
 - Built a storefront for a charity to sell jobs board postings, with Stripe taking payments and
